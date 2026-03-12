@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyItem | UNIMAK CS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS STYLING --- */
+        :root {
+            --primary: #2d5cf7;
+            --accent: #00d2ff;
+            --bg: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.8);
+            --text: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .blob {
+            position: fixed;
+            width: 500px; height: 500px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            filter: blur(100px); border-radius: 50%;
+            z-index: -1; opacity: 0.15; top: -10%; right: -10%;
+        }
+
+        nav {
+            padding: 1.5rem 10%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-weight: 600; font-size: 1.5rem; }
+        .logo span { color: var(--primary); }
+        .dept-tag { font-size: 0.8rem; background: #e2e8f0; padding: 5px 12px; border-radius: 20px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        .hidden { display: none !important; }
+
+        /* Auth Styles */
+        .auth-container { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+        .auth-toggle { margin-top: 20px; font-size: 0.9rem; color: #64748b; cursor: pointer; text-decoration: underline; }
+
+        /* UI Components */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .choice-card {
+            background: var(--glass); backdrop-filter: blur(10px); padding: 50px 30px;
+            border-radius: 24px; text-align: center; border: 1px solid white;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .choice-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(45, 92, 247, 0.2); }
+        .icon-circle { width: 80px; height: 80px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; }
+
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .item-card { background: white; border-radius: 20px; padding: 25px; position: relative; border: 1px solid #f1f5f9; }
+        .status-badge { position: absolute; top: 15px; right: 15px; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; }
+        .status-lost { background: #fee2e2; color: #ef4444; }
+        .status-recovered { background: #dcfce7; color: #22c55e; }
+
+        input, textarea, select { width: 100%; margin: 10px 0; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: white; padding: 35px; border-radius: 25px; width: 95%; max-width: 500px; }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+
+    <nav>
+        <div class="logo">FindMy<span>Item</span></div>
+        <div id="user-info" class="dept-tag hidden"></div>
+        <button id="logout-btn" class="btn-outline hidden" onclick="logout()" style="padding: 5px 10px; font-size: 0.7rem;">Logout</button>
+    </nav>
+
+    <div id="auth-section" class="container">
+        <div id="login-box" class="auth-container">
+            <h2>Welcome Back</h2>
+            <p>Enter your ID to continue</p>
+            <form id="loginForm">
+                <input type="text" id="loginId" placeholder="Student ID Number" required>
+                <button type="submit" class="btn-main">Login</button>
+            </form>
+            <p class="auth-toggle" onclick="toggleAuth()">New here? Register Student Account</p>
+        </div>
+
+        <div id="register-box" class="auth-container hidden">
+            <h2>Student Register</h2>
+            <form id="registerForm">
+                <input type="text" id="regName" placeholder="Full Name" required>
+                <input type="text" id="regId" placeholder="Student ID Number" required>
+                <input type="number" id="regYear" placeholder="Year of Study (e.g. 1)" required>
+                <button type="submit" class="btn-main">Create Account</button>
+            </form>
+            <p class="auth-toggle" onclick="toggleAuth()">Already have an account? Login</p>
+        </div>
+    </div>
+
+    <div id="app-section" class="hidden">
+        <main id="view-landing" class="container">
+            <div class="hero">
+                <h1 id="welcome-msg">FindMyItem Portal</h1>
+                <p>Digital recovery solution for UNIMAK Computer Science Labs.</p>
+            </div>
+            <div class="card-grid">
+                <div class="choice-card" onclick="switchView('reporter')">
+                    <div class="icon-circle">🔍</div>
+                    <h3>I Lost Something</h3>
+                    <p>Report your item to the department gallery.</p>
+                </div>
+                <div class="choice-card" onclick="switchView('finder')">
+                    <div class="icon-circle">🤝</div>
+                    <h3>I Found Something</h3>
+                    <p>Check if someone is looking for what you found.</p>
+                </div>
+            </div>
+        </main>
+
+        <section id="view-dashboard" class="container hidden">
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="btn-outline" onclick="goHome()">← Back</button>
+                <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()" style="margin:0">
+                <button id="addBtn" class="btn-main" onclick="openModal()" style="width: auto;">+ Report</button>
+            </div>
+            <div id="itemList" class="item-grid"></div>
+        </section>
+    </div>
+
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h2>Report Lost Item</h2>
+            <form id="reportForm">
+                <input type="text" id="itemName" placeholder="Item Name" required>
+                <select id="itemCat">
+                    <option value="Electronics">Electronics</option>
+                    <option value="Stationery">Stationery</option>
+                    <option value="Personal">Personal</option>
+                </select>
+                <textarea id="itemDesc" placeholder="Where did you see it last?" required></textarea>
+                <input type="text" id="itemPhone" placeholder="WhatsApp Contact (232...)" required>
+                <button type="submit" class="btn-main">Post Item</button>
+                <button type="button" class="btn-outline" onclick="closeModal()" style="width: 100%; margin-top: 10px;">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /* --- AUTH LOGIC --- */
+        let students = JSON.parse(localStorage.getItem('unimak_students')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('session_user')) || null;
+        let items = JSON.parse(localStorage.getItem('unimak_lost_items')) || [];
+        let currentRole = '';
+
+        function toggleAuth() {
+            document.getElementById('login-box').classList.toggle('hidden');
+            document.getElementById('register-box').classList.toggle('hidden');
+        }
+
+        document.getElementById('registerForm').onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('regId').value;
+            if(students.find(s => s.id === id)) return alert("ID already registered!");
+            
+            const newUser = {
+                name: document.getElementById('regName').value,
+                id: id,
+                year: document.getElementById('regYear').value
+            };
+            students.push(newUser);
+            localStorage.setItem('unimak_students', JSON.stringify(students));
+            alert("Registration successful! Please login.");
+            toggleAuth();
+        };
+
+        document.getElementById('loginForm').onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('loginId').value;
+            const user = students.find(s => s.id === id);
+            if(user) {
+                currentUser = user;
+                localStorage.setItem('session_user', JSON.stringify(user));
+                initApp();
+            } else {
+                alert("ID not found. Please register.");
+            }
+        };
+
+        function logout() {
+            localStorage.removeItem('session_user');
+            location.reload();
+        }
+
+        /* --- APP LOGIC --- */
+        function initApp() {
+            if(!currentUser) return;
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('app-section').classList.remove('hidden');
+            document.getElementById('user-info').innerText = `${currentUser.name} (Year ${currentUser.year})`;
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('welcome-msg').innerText = `Hello, ${currentUser.name.split(' ')[0]}!`;
+        }
+
+        function switchView(role) {
+            currentRole = role;
+            document.getElementById('view-landing').classList.add('hidden');
+            document.getElementById('view-dashboard').classList.remove('hidden');
+            document.getElementById('addBtn').style.display = (role === 'finder' ? 'none' : 'block');
+            renderItems();
+        }
+
+        function goHome() {
+            document.getElementById('view-landing').classList.remove('hidden');
+            document.getElementById('view-dashboard').classList.add('hidden');
+        }
+
+        function openModal() { document.getElementById('modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+        document.getElementById('reportForm').onsubmit = (e) => {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                ownerId: currentUser.id,
+                title: document.getElementById('itemName').value,
+                cat: document.getElementById('itemCat').value,
+                desc: document.getElementById('itemDesc').value,
+                contact: document.getElementById('itemPhone').value,
+                status: 'LOST',
+                date: new Date().toLocaleDateString()
+            };
+            items.unshift(newItem);
+            localStorage.setItem('unimak_lost_items', JSON.stringify(items));
+            closeModal();
+            renderItems();
+        };
+
+        function renderItems(data = items) {
+            const list = document.getElementById('itemList');
+            list.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <span class="status-badge ${item.status==='LOST'?'status-lost':'status-recovered'}">${item.status}</span>
+                    <small>${item.cat}</small>
+                    <h3>${item.title}</h3>
+                    <p style="font-size:0.8rem; color:#64748b">${item.desc}</p>
+                    <hr style="margin:10px 0; border:0; border-top:1px solid #eee">
+                    ${item.status === 'LOST' ? (
+                        currentRole === 'finder' ? 
+                        `<button class="btn-main" onclick="notify('${item.contact}','${item.title}')">I Found This</button>` :
+                        (item.ownerId === currentUser.id ? `<button class="btn-outline" onclick="markFound(${item.id})">Mark Found</button>` : '')
+                    ) : '<strong>Recovered ✓</strong>'}
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function markFound(id) {
+            items = items.map(i => i.id === id ? {...i, status:'RECOVERED'} : i);
+            localStorage.setItem('unimak_lost_items', JSON.stringify(items));
+            renderItems();
+        }
+
+        function notify(phone, title) {
+            const msg = encodeURIComponent(`Hi, I found your ${title} reported on FindMyItem!`);
+            window.open(`https://wa.me/${phone}?text=${msg}`);
+        }
+
+        function searchItems() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderItems(items.filter(i => i.title.toLowerCase().includes(q)));
+        }
+
+        // On Load
+        if(currentUser) initApp();
+    </script>
+</body>
+</html>
