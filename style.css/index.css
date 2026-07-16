@@ -1,0 +1,7 @@
+/* index.css — styles specific to the splash/landing page only */
+
+.splash-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 32px; text-align:center; }
+.splash-icon{ width:64px; height:64px; border-radius:18px; background:var(--blue); display:flex; align-items:center; justify-content:center; color:#fff; box-shadow:0 12px 24px -8px rgba(37,99,235,0.5); }
+.splash-body h1{ margin-top:22px; font-size:22px; font-weight:800; }
+.splash-body p{ margin-top:8px; color:var(--gray-500); font-size:15px; }
+.splash-actions{ padding:24px 24px 36px; display:flex; flex-direction:column; gap:12px; }

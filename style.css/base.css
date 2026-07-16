@@ -1,0 +1,129 @@
+/* ============================================================
+   base.css — shared design tokens + components reused across
+   MULTIPLE pages (shell, buttons, form fields, nav, badges,
+   toast). Page-specific layout lives in each page's own CSS
+   file inside its folder, not here.
+   ============================================================ */
+
+:root{
+  --blue:#2563EB;
+  --blue-dark:#1D4ED8;
+  --blue-light:#EFF4FF;
+  --ink:#111827;
+  --gray-700:#374151;
+  --gray-500:#6B7280;
+  --gray-400:#9CA3AF;
+  --gray-200:#E5E7EB;
+  --gray-100:#F3F4F6;
+  --gray-50:#F9FAFB;
+  --red:#EF4444;
+  --pink:#F43F5E;
+  --pink-bg:#FFE4E8;
+  --white:#FFFFFF;
+  --radius:12px;
+}
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; font-family:'Inter',sans-serif; background:#E9EAEF; color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+button, input, textarea, select{ font-family:inherit; }
+a{ text-decoration:none; }
+img{ max-width:100%; display:block; }
+
+/* ---------------- page shell ---------------- */
+.stage{ min-height:100vh; display:flex; justify-content:center; }
+.app-shell{
+  width:100%; max-width:480px; min-height:100vh; background:var(--white);
+  display:flex; flex-direction:column; position:relative;
+  box-shadow:0 0 60px rgba(17,24,39,0.08);
+}
+@media (min-width:560px){
+  .stage{ padding:28px 12px; }
+  .app-shell{ min-height:calc(100vh - 56px); border-radius:22px; overflow:hidden; box-shadow:0 30px 70px -30px rgba(17,24,39,0.35); }
+}
+
+/* ---------------- shared page header ---------------- */
+.topbar{
+  flex:none; display:flex; align-items:center; height:56px; padding:0 8px; position:relative;
+  border-bottom:1px solid var(--gray-100); background:#fff; z-index:2;
+}
+.topbar .back{
+  width:36px; height:36px; border:none; background:transparent; display:flex; align-items:center; justify-content:center;
+  color:var(--ink); border-radius:50%; cursor:pointer;
+}
+.topbar .back:hover{ background:var(--gray-100); }
+.topbar h1{ position:absolute; left:0; right:0; text-align:center; font-size:16px; font-weight:700; pointer-events:none; }
+.subbar{ text-align:center; font-size:11.5px; color:var(--gray-500); padding:7px 0; border-bottom:1px solid var(--gray-100); flex:none; }
+.admin-header-actions{ position:absolute; right:8px; }
+
+/* ---------------- buttons (used on every page) ---------------- */
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px 18px;
+  border-radius:10px; border:none; font-size:15px; font-weight:700; cursor:pointer; transition:background .15s ease;
+}
+.btn-primary{ background:var(--blue); color:#fff; }
+.btn-primary:hover{ background:var(--blue-dark); }
+.btn-outline{ background:#fff; color:var(--blue); border:1.5px solid var(--gray-200); }
+.btn-outline:hover{ border-color:var(--blue); }
+.btn:disabled{ opacity:.5; cursor:not-allowed; }
+.btn.spaced{ margin-bottom:12px; }
+.btn.spaced-top{ margin-top:6px; }
+
+/* ---------------- form fields (used on Register/Login/Report/Contact) ---------------- */
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:13px; font-weight:600; color:var(--gray-700); margin-bottom:6px; }
+.input-wrap{ position:relative; }
+.input-wrap .icon{ position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--gray-400); display:flex; }
+input[type=text], input[type=email], input[type=password], input[type=date], textarea, select{
+  width:100%; border:1px solid var(--gray-200); border-radius:10px; padding:12px 14px; font-size:14px; color:var(--ink);
+  background:#fff; outline:none;
+}
+input.with-icon, select.with-icon{ padding-left:38px; }
+input:focus, textarea:focus, select:focus{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,0.12); }
+textarea{ resize:none; min-height:90px; }
+input::placeholder, textarea::placeholder{ color:var(--gray-400); }
+.error-text{ color:var(--pink); font-size:12px; margin-top:5px; display:none; }
+.field.has-error input, .field.has-error textarea, .field.has-error select{ border-color:var(--pink); }
+.field.has-error .error-text{ display:block; }
+
+/* ---------------- search box (used on Home/Lost Items/Admin) ---------------- */
+.search-input-wrap{ position:relative; margin-bottom:14px; color:inherit; }
+.search-input-wrap .icon{ position:absolute; left:12px; top:50%; transform:translateY(-50%); }
+.search-input-wrap.static-block{ display:block; }
+.search-input-wrap input[readonly]{ cursor:pointer; }
+.search-input-wrap input{ background:var(--gray-100); border:none; padding-left:40px; }
+
+/* ---------------- icon button (used on Home/Lost Items) ---------------- */
+.icon-btn{ width:38px; height:38px; border-radius:10px; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; }
+.icon-btn.blue{ background:var(--blue); color:#fff; }
+.icon-btn.ghost{ background:transparent; color:var(--ink); }
+.icon-btn.ghost:hover, .icon-btn.blue:hover{ filter:brightness(1.05); }
+
+/* ---------------- status badge (used on Home cards + Item Detail) ---------------- */
+.badge{ position:absolute; top:7px; right:7px; font-size:10px; font-weight:700; padding:3px 8px; border-radius:999px; letter-spacing:.02em; }
+.badge.lost{ background:var(--pink); color:#fff; }
+.badge.found{ background:rgba(17,24,39,0.75); color:#fff; }
+.badge.pending{ background:var(--gray-100); color:var(--gray-700); border:1px solid var(--gray-200); }
+
+/* ---------------- avatar (used on Messages/Profile/Admin) ---------------- */
+.avatar{ width:36px; height:36px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:700; }
+
+/* ---------------- bottom nav (used on Home/Report/Messages/Profile) ---------------- */
+.bottomnav{ flex:none; display:flex; border-top:1px solid var(--gray-100); background:#fff; padding:8px 0 14px; }
+.navitem{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--gray-400); background:none; border:none; font-size:11px; font-weight:500; cursor:pointer; }
+.navitem.active{ color:var(--blue); }
+
+/* ---------------- toast (used on every page that shows a confirmation) ---------------- */
+.toast{
+  position:absolute; bottom:88px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none;
+  background:var(--ink); color:#fff; padding:11px 18px; border-radius:10px; font-size:13px; font-weight:600; z-index:50; transition:all .25s ease; white-space:nowrap;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ---------------- generic utilities ---------------- */
+.empty-state{ text-align:center; padding:50px 20px; color:var(--gray-400); font-size:13px; }
+.scroll-panel{ flex:1; overflow-y:auto; }
+.hidden{ display:none !important; }
+.visually-hidden-input{ display:none; }
