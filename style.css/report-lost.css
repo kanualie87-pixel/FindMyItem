@@ -1,9 +1,0 @@
-/* report-lost.css — styles specific to the Report Lost Item form page only */
-
-.form-body{ padding:18px; flex:1; overflow-y:auto; }
-.upload-box{ border:1.6px dashed var(--gray-200); border-radius:var(--radius); padding:26px 14px; text-align:center; color:var(--gray-500); cursor:pointer; }
-.upload-box:hover{ border-color:var(--blue); }
-.upload-box.has-file{ border-style:solid; border-color:var(--blue); color:var(--blue); background:var(--blue-light); }
-.upload-box .cloud{ color:var(--gray-400); margin-bottom:8px; }
-.upload-box.has-file .cloud{ color:var(--blue); }
-.upload-box .hint{ font-size:12px; color:var(--gray-400); margin-top:4px; }

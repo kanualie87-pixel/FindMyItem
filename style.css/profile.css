@@ -1,7 +1,0 @@
-/* profile.css — styles specific to the Profile page only */
-
-.profile-body{ flex:1; padding:28px 20px; overflow-y:auto; }
-.profile-header{ display:flex; flex-direction:column; align-items:center; margin-bottom:28px; }
-.profile-avatar-lg{ width:72px; height:72px; font-size:24px; background:var(--blue); margin-bottom:12px; }
-.profile-name{ font-weight:700; font-size:16px; }
-.profile-email{ color:var(--gray-500); font-size:13px; }
