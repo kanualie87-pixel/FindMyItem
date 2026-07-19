@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "FINDMYITEM API",
+    "description": "CRUD demonstration for the FINDMYITEM lost & found backend.\n\nHow to use:\n1. Run 'Auth > Login (admin)' first -- it saves the JWT to {{token}} automatically.\n2. Run the Items requests top-to-bottom. 'Create Item' saves the new id to {{item_id}}.\n3. To demonstrate the admin-only delete rule, log in as a normal user (alice) and try Delete -> 403, then log in as admin and Delete -> 204.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" },
+    { "key": "item_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register (new user)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "username", "value": "charlie", "type": "text" },
+                { "key": "email", "value": "charlie@findmyitem.com", "type": "text" },
+                { "key": "password", "value": "charliepass1", "type": "text" },
+                { "key": "phone", "value": "0912345678", "type": "text" },
+                { "key": "profile_picture", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/api/auth/register/", "host": ["{{base_url}}"], "path": ["api", "auth", "register", ""] }
+          }
+        },
+        {
+          "name": "Login (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var data = pm.response.json();",
+                  "if (data.access) {",
+                  "  pm.collectionVariables.set('token', data.access);",
+                  "  console.log('Saved token for user:', data.user && data.user.username);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/auth/login/", "host": ["{{base_url}}"], "path": ["api", "auth", "login", ""] }
+          }
+        },
+        {
+          "name": "Login (normal user - alice)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var data = pm.response.json();",
+                  "if (data.access) { pm.collectionVariables.set('token', data.access); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"alicepass123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/auth/login/", "host": ["{{base_url}}"], "path": ["api", "auth", "login", ""] }
+          }
+        },
+        {
+          "name": "Me (current profile)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/auth/me/", "host": ["{{base_url}}"], "path": ["api", "auth", "me", ""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Items (main CRUD entity)",
+      "item": [
+        {
+          "name": "CREATE Item (POST)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var data = pm.response.json();",
+                  "if (data.id) { pm.collectionVariables.set('item_id', data.id); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "Lost black wallet", "type": "text" },
+                { "key": "item_type", "value": "lost", "type": "text" },
+                { "key": "category", "value": "wallet", "type": "text" },
+                { "key": "location", "value": "Main library", "type": "text" },
+                { "key": "description", "value": "Leather wallet with ID cards", "type": "text" },
+                { "key": "image", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/api/items/", "host": ["{{base_url}}"], "path": ["api", "items", ""] }
+          }
+        },
+        {
+          "name": "READ all Items (GET list)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/items/?search=&type=&category=",
+              "host": ["{{base_url}}"],
+              "path": ["api", "items", ""],
+              "query": [
+                { "key": "search", "value": "" },
+                { "key": "type", "value": "", "description": "lost | found" },
+                { "key": "category", "value": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "READ single Item (GET by id)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/items/{{item_id}}/", "host": ["{{base_url}}"], "path": ["api", "items", "{{item_id}}", ""] }
+          }
+        },
+        {
+          "name": "UPDATE Item (PUT - full)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Lost black wallet (updated)\",\n  \"item_type\": \"lost\",\n  \"category\": \"wallet\",\n  \"location\": \"Cafeteria\",\n  \"description\": \"Updated description\",\n  \"status\": \"open\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/items/{{item_id}}/", "host": ["{{base_url}}"], "path": ["api", "items", "{{item_id}}", ""] }
+          }
+        },
+        {
+          "name": "UPDATE Item (PATCH - partial)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolved\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/items/{{item_id}}/", "host": ["{{base_url}}"], "path": ["api", "items", "{{item_id}}", ""] }
+          }
+        },
+        {
+          "name": "DELETE Item (admin only -> 204 / user -> 403)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/items/{{item_id}}/", "host": ["{{base_url}}"], "path": ["api", "items", "{{item_id}}", ""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claims",
+      "item": [
+        {
+          "name": "CREATE Claim on item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"item\": {{item_id}},\n  \"message\": \"I think this is mine!\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/claims/", "host": ["{{base_url}}"], "path": ["api", "claims", ""] }
+          }
+        },
+        {
+          "name": "LIST my Claims",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/claims/", "host": ["{{base_url}}"], "path": ["api", "claims", ""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messaging",
+      "item": [
+        {
+          "name": "Start / get Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 2\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/conversations/start/", "host": ["{{base_url}}"], "path": ["api", "conversations", "start", ""] }
+          }
+        },
+        {
+          "name": "Send Message (REST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversation\": 1,\n  \"text\": \"Hello from Postman\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/api/messages/", "host": ["{{base_url}}"], "path": ["api", "messages", ""] }
+          }
+        }
+      ]
+    }
+  ]
+}

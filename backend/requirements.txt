@@ -1,0 +1,8 @@
+Django>=5.1
+djangorestframework
+djangorestframework-simplejwt
+psycopg[binary]
+Pillow
+channels[daphne]
+django-cors-headers
+python-dotenv
