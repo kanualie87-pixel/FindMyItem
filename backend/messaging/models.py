@@ -35,6 +35,11 @@ class Message(models.Model):
         related_name='sent_messages',
     )
     text = models.TextField()
+    # WhatsApp-style delivery states:
+    #   saved            -> single tick   (✓)
+    #   is_delivered     -> double tick   (✓✓)  the recipient opened the chat
+    #   is_read          -> blue ticks    (✓✓)  the recipient read it
+    is_delivered = models.BooleanField(default=False)
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

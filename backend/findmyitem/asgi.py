@@ -12,7 +12,12 @@ django_asgi_app = get_asgi_application()
 from channels.routing import ProtocolTypeRouter, URLRouter  # noqa: E402
 
 from messaging.middleware import JWTAuthMiddleware  # noqa: E402
-from messaging.routing import websocket_urlpatterns  # noqa: E402
+from messaging.routing import websocket_urlpatterns as chat_ws_urlpatterns  # noqa: E402
+from notifications.routing import websocket_urlpatterns as notification_ws_urlpatterns  # noqa: E402
+
+# Both the chat and notification sockets authenticate the same way (?token=)
+# and share one router.
+websocket_urlpatterns = chat_ws_urlpatterns + notification_ws_urlpatterns
 
 application = ProtocolTypeRouter({
     'http': django_asgi_app,

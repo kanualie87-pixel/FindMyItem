@@ -9,6 +9,7 @@ import ReportItem from './pages/ReportItem'
 import ItemDetail from './pages/ItemDetail'
 import Dashboard from './pages/Dashboard'
 import Messages from './pages/Messages'
+import Notifications from './pages/Notifications'
 
 function App() {
   const { user } = useAuth()
@@ -36,6 +37,7 @@ function App() {
           <Route path="/items/:id" element={<ItemDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/notifications" element={<Notifications />} />
           {/* Once logged in, /login and /register just go home. */}
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/register" element={<Navigate to="/" replace />} />

@@ -15,6 +15,7 @@ def api_root(_request):
             'claims': '/api/claims/',
             'conversations': '/api/conversations/',
             'messages': '/api/messages/',
+            'notifications': '/api/notifications/',
             'admin': '/admin/',
         },
     })
@@ -26,6 +27,7 @@ urlpatterns = [
     path('api/auth/', include('accounts.urls')),
     path('api/', include('items.urls')),
     path('api/', include('messaging.urls')),
+    path('api/', include('notifications.urls')),
 ]
 
 # Serve uploaded media during development.

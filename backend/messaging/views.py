@@ -51,19 +51,24 @@ class ConversationViewSet(viewsets.ModelViewSet):
             .first()
         )
         if existing:
-            return Response(ConversationSerializer(existing).data)
+            return Response(
+                ConversationSerializer(existing, context={'request': request}).data
+            )
 
         convo = Conversation.objects.create(item_id=item_id or None)
         convo.participants.add(request.user, other)
         return Response(
-            ConversationSerializer(convo).data, status=status.HTTP_201_CREATED
+            ConversationSerializer(convo, context={'request': request}).data,
+            status=status.HTTP_201_CREATED,
         )
 
     @action(detail=True, methods=['get'])
     def messages(self, request, pk=None):
         """GET /api/conversations/{id}/messages/ -- full history, marks incoming read."""
         convo = self.get_object()
-        convo.messages.exclude(sender=request.user).update(is_read=True)
+        convo.messages.exclude(sender=request.user).update(
+            is_delivered=True, is_read=True
+        )
         serializer = MessageSerializer(convo.messages.select_related('sender'), many=True)
         return Response(serializer.data)
 

@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Avatar from './Avatar'
+import NotificationBell from './NotificationBell'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
@@ -44,6 +45,7 @@ export default function Navbar() {
 
         {/* Profile + logout (both breakpoints) */}
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <Link to="/dashboard" className="flex items-center gap-2">
             <Avatar user={user} size={32} />
             <span className="hidden text-sm font-medium text-slate-700 sm:block">
