@@ -141,4 +141,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             f'Done! {created_count} new items, {photo_count} photos downloaded, '
             f'{Item.objects.count()} items total.'
+<<<<<<< HEAD
         ))
+=======
+        ))
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

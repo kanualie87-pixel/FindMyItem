@@ -101,4 +101,8 @@ export function Field({ label, type = 'text', value, onChange, placeholder, requ
       />
     </label>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

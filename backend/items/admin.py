@@ -13,4 +13,8 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(Claim)
 class ClaimAdmin(admin.ModelAdmin):
     list_display = ('item', 'claimant', 'status', 'created_at')
+<<<<<<< HEAD
     list_filter = ('status',)
+=======
+    list_filter = ('status',)
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

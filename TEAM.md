@@ -51,7 +51,7 @@ git pull origin main            # get latest before starting
 git checkout -b feature/<area>-<short-desc>   # e.g. feature/auth-login-form
 # ... make changes in YOUR files ...
 git add -A
-git commit -m "Auth: add login form validation"
+git git add .
 git push -u origin feature/auth-login-form
 ```
 

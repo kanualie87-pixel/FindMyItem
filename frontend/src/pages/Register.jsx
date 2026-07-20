@@ -96,4 +96,8 @@ export default function Register() {
       </p>
     </AuthShell>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

@@ -24,4 +24,8 @@ export default function Avatar({ user, size = 36 }) {
       {initial}
     </div>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

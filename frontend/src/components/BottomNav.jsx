@@ -1,18 +1,27 @@
 import { NavLink } from 'react-router-dom'
+<<<<<<< HEAD
 import { useNotifications } from '../context/NotificationContext'
+=======
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
 
 // Standard mobile bottom tab bar. Hidden on desktop (md+).
 const TABS = [
   { to: '/', label: 'Home', icon: '🏠', end: true },
   { to: '/report', label: 'Report', icon: '➕' },
   { to: '/messages', label: 'Chat', icon: '💬' },
+<<<<<<< HEAD
   { to: '/notifications', label: 'Alerts', icon: '🔔', badge: true },
+=======
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
   { to: '/dashboard', label: 'Dashboard', icon: '📋' },
 ]
 
 export default function BottomNav() {
+<<<<<<< HEAD
   const { unread } = useNotifications()
 
+=======
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
   return (
     <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
       <div className="mx-auto flex max-w-lg items-stretch justify-around">
@@ -29,6 +38,7 @@ export default function BottomNav() {
           >
             {({ isActive }) => (
               <>
+<<<<<<< HEAD
                 <span className={`relative text-xl transition ${isActive ? 'scale-110' : ''}`}>
                   {t.icon}
                   {t.badge && unread > 0 && (
@@ -36,6 +46,10 @@ export default function BottomNav() {
                       {unread > 9 ? '9+' : unread}
                     </span>
                   )}
+=======
+                <span className={`text-xl transition ${isActive ? 'scale-110' : ''}`}>
+                  {t.icon}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
                 </span>
                 {t.label}
               </>
@@ -45,4 +59,8 @@ export default function BottomNav() {
       </div>
     </nav>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

@@ -1,7 +1,10 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Avatar from './Avatar'
+<<<<<<< HEAD
 import NotificationBell from './NotificationBell'
+=======
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
 
 export default function Navbar() {
   const { user, logout } = useAuth()
@@ -45,7 +48,10 @@ export default function Navbar() {
 
         {/* Profile + logout (both breakpoints) */}
         <div className="flex items-center gap-2">
+<<<<<<< HEAD
           <NotificationBell />
+=======
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
           <Link to="/dashboard" className="flex items-center gap-2">
             <Avatar user={user} size={32} />
             <span className="hidden text-sm font-medium text-slate-700 sm:block">
@@ -67,4 +73,8 @@ export default function Navbar() {
       </nav>
     </header>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

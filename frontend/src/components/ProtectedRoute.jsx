@@ -10,4 +10,8 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />
   }
   return children
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
