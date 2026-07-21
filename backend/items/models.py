@@ -87,8 +87,4 @@ class Claim(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-<<<<<<< HEAD
         return f'Claim on {self.item.title} by {self.claimant}'
-=======
-        return f'Claim on {self.item.title} by {self.claimant}'
->>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

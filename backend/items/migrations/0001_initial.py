@@ -50,8 +50,4 @@ class Migration(migrations.Migration):
                 'ordering': ['-created_at'],
             },
         ),
-<<<<<<< HEAD
     ]
-=======
-    ]
->>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8

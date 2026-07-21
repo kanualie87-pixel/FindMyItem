@@ -104,8 +104,4 @@ class ClaimViewSet(viewsets.ModelViewSet):
         if new_status == Claim.Status.APPROVED:
             claim.item.status = 'resolved'
             claim.item.save(update_fields=['status'])
-<<<<<<< HEAD
         return Response(ClaimSerializer(claim).data)
-=======
-        return Response(ClaimSerializer(claim).data)
->>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
