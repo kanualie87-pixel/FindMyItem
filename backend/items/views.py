@@ -25,13 +25,7 @@ class ItemViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnlyAndAdminDelete,
     ]
-    search_fields = [
-    'title',
-    'description',
-    'location',
-    'category',
-    'owner__username',
-]
+    search_fields = ['title', 'description', 'location']
     ordering_fields = ['created_at', 'title', 'date_event']
 
     def get_queryset(self):
