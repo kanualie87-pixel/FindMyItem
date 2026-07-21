@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🔎 FINDMYITEM — Campus Lost & Found
 
 A full-stack lost-and-found platform. Users report lost or found items, browse
@@ -167,7 +166,3 @@ Base URL: `http://127.0.0.1:8000/api`
   configuration is **PostgreSQL** in `settings.py`.
 - WebSockets use an in-memory channel layer, so **no Redis is required** for
   local development.
-=======
-
-# FINDMYITEM
->>>>>>> c5411e13992c2599f34ac36cbbb60fd05ac78bd8
