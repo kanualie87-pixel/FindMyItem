@@ -15,18 +15,18 @@ delete items.
 
 ## ✨ Features
 
-| Area | What it does |
-|------|--------------|
-| **Auth-first** | The app opens on **Login / Register** — the navigation only appears **after** you log in. |
-| **Login / Register** | Sign up with a **profile picture** upload; JWT login. |
-| **Responsive** | Standard **web** layout (top navigation) and **phone** layout (bottom tab bar). |
-| **Navbar** | Top nav on desktop; a bottom tab bar (Home / Report / Chat / Dashboard) on mobile. |
-| **Home** | Big central **search bar**, lost/found + category **filters**, gradient hero. |
-| **ItemCard** | Reusable card: image, **lost/found badge**, location, date. |
-| **Report Item** | Image upload, category dropdown, **map picker** (click to drop a pin), free-text description. |
-| **Item detail** | Claim an item, or **message the owner** directly. |
-| **Messages** | **Real-time chat** over WebSockets between two users. |
-| **Dashboard** | Your posts + incoming/outgoing claims. Admins see **all** items and can delete. |
+| Area                 | What it does                                                                                  |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| **Auth-first**       | The app opens on **Login / Register** — the navigation only appears **after** you log in.     |
+| **Login / Register** | Sign up with a **profile picture** upload; JWT login.                                         |
+| **Responsive**       | Standard **web** layout (top navigation) and **phone** layout (bottom tab bar).               |
+| **Navbar**           | Top nav on desktop; a bottom tab bar (Home / Report / Chat / Dashboard) on mobile.            |
+| **Home**             | Big central **search bar**, lost/found + category **filters**, gradient hero.                 |
+| **ItemCard**         | Reusable card: image, **lost/found badge**, location, date.                                   |
+| **Report Item**      | Image upload, category dropdown, **map picker** (click to drop a pin), free-text description. |
+| **Item detail**      | Claim an item, or **message the owner** directly.                                             |
+| **Messages**         | **Real-time chat** over WebSockets between two users.                                         |
+| **Dashboard**        | Your posts + incoming/outgoing claims. Admins see **all** items and can delete.               |
 
 ---
 
@@ -45,6 +45,7 @@ delete items.
 ## 🚀 Getting started
 
 ### Prerequisites
+
 - Python 3.11+ (tested on 3.14) and Node.js 18+
 - PostgreSQL 18 running locally
 
@@ -102,37 +103,41 @@ Open **http://localhost:5173**.
 Base URL: `http://127.0.0.1:8000/api`
 
 ### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/register/` | Create account (multipart, supports `profile_picture`) |
-| POST | `/auth/login/` | Get `access` + `refresh` tokens + user info |
-| POST | `/auth/refresh/` | Refresh the access token |
-| GET/PATCH | `/auth/me/` | Current user's profile |
+
+| Method    | Endpoint          | Description                                            |
+| --------- | ----------------- | ------------------------------------------------------ |
+| POST      | `/auth/register/` | Create account (multipart, supports `profile_picture`) |
+| POST      | `/auth/login/`    | Get `access` + `refresh` tokens + user info            |
+| POST      | `/auth/refresh/`  | Refresh the access token                               |
+| GET/PATCH | `/auth/me/`       | Current user's profile                                 |
 
 ### Items — the main CRUD entity
-| Method | Endpoint | Who |
-|--------|----------|-----|
-| GET | `/items/` | Anyone (supports `?search=`, `?type=lost|found`, `?category=`, `?mine=1`) |
-| POST | `/items/` | Logged-in users |
-| GET | `/items/{id}/` | Anyone |
-| PUT / PATCH | `/items/{id}/` | Owner or admin |
-| **DELETE** | `/items/{id}/` | **Admin only** (users get `403 Forbidden`) |
-| GET | `/items/{id}/claims/` | Owner or admin |
+
+| Method      | Endpoint              | Who                                        |
+| ----------- | --------------------- | ------------------------------------------ | -------------------------------- |
+| GET         | `/items/`             | Anyone (supports `?search=`, `?type=lost   | found`, `?category=`, `?mine=1`) |
+| POST        | `/items/`             | Logged-in users                            |
+| GET         | `/items/{id}/`        | Anyone                                     |
+| PUT / PATCH | `/items/{id}/`        | Owner or admin                             |
+| **DELETE**  | `/items/{id}/`        | **Admin only** (users get `403 Forbidden`) |
+| GET         | `/items/{id}/claims/` | Owner or admin                             |
 
 ### Claims
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET / POST | `/claims/` | List your claims / create a claim |
-| POST | `/claims/{id}/respond/` | Owner approves/rejects a claim |
+
+| Method     | Endpoint                | Description                       |
+| ---------- | ----------------------- | --------------------------------- |
+| GET / POST | `/claims/`              | List your claims / create a claim |
+| POST       | `/claims/{id}/respond/` | Owner approves/rejects a claim    |
 
 ### Messaging
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/conversations/` | Your conversations |
-| POST | `/conversations/start/` | Start/get a 1:1 conversation |
-| GET | `/conversations/{id}/messages/` | Message history |
-| POST | `/messages/` | Send a message (REST) |
-| WS | `ws://127.0.0.1:8000/ws/chat/{id}/?token=<jwt>` | **Real-time** chat |
+
+| Method | Endpoint                                        | Description                  |
+| ------ | ----------------------------------------------- | ---------------------------- |
+| GET    | `/conversations/`                               | Your conversations           |
+| POST   | `/conversations/start/`                         | Start/get a 1:1 conversation |
+| GET    | `/conversations/{id}/messages/`                 | Message history              |
+| POST   | `/messages/`                                    | Send a message (REST)        |
+| WS     | `ws://127.0.0.1:8000/ws/chat/{id}/?token=<jwt>` | **Real-time** chat           |
 
 ---
 
@@ -151,7 +156,7 @@ Base URL: `http://127.0.0.1:8000/api`
 
 - **User** — username, email, password (hashed), `profile_picture`, phone,
   `is_staff` (= admin).
-- **Item** *(main entity)* — `owner → User`, title, description, `item_type`
+- **Item** _(main entity)_ — `owner → User`, title, description, `item_type`
   (lost/found), category, location, latitude/longitude, image, status,
   `date_event`, timestamps.
 - **Claim** — `item → Item`, `claimant → User`, message, status.
@@ -161,8 +166,13 @@ Base URL: `http://127.0.0.1:8000/api`
 ---
 
 ## 📝 Notes
+
 - `backend/findmyitem/settings_test.py` is a throwaway SQLite config used only
   for quick local testing without a Postgres password — the graded/default
   configuration is **PostgreSQL** in `settings.py`.
 - WebSockets use an in-memory channel layer, so **no Redis is required** for
   local development.
+
+  ## Media Files
+
+  Added media files to support the FindMyItem application.
