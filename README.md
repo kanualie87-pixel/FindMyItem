@@ -32,7 +32,7 @@ delete items.
 
 ## ✅ Assignment requirements — where they live
 
-- **Relational DB (PostgreSQL):** `backend/findmyitem/settings.py` → `DATABASES`
+- **Relational DB (dbSQlite3):** `backend/findmyitem/settings.py` → `DATABASES`
 - **Full CRUD on a main entity (`Item`):** `backend/items/views.py` (`ItemViewSet`)
 - **RESTful routing / standard HTTP verbs:** `backend/items/urls.py` (DRF router)
 - **ORM / parameterized queries (no SQL injection):** all models use the Django ORM
@@ -169,7 +169,7 @@ Base URL: `http://127.0.0.1:8000/api`
 
 - `backend/findmyitem/settings_test.py` is a throwaway SQLite config used only
   for quick local testing without a Postgres password — the graded/default
-  configuration is **PostgreSQL** in `settings.py`.
+  configuration is **dbSQlie3** in `settings.py`.
 - WebSockets use an in-memory channel layer, so **no Redis is required** for
   local development.
 
