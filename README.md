@@ -156,7 +156,7 @@ Base URL: `http://127.0.0.1:8000/api`
 
 - **User** — username, email, password (hashed), `profile_picture`, phone,student_id,department, role (admin/user), created_at
   `is_staff` (= admin).
-- **Item** _(main entity)_ — `owner → User`, title, description, `item_type`
+- **Item** _(main entity)_ — `owner → User`, title, description, `item_type,(lost/found),category,location,image,status (pending, claimed, returned),date_lost_found, created_at, updated_at
   (lost/found), category, location, latitude/longitude, image, status,date_lost_found,
   `date_event`, timestamps.
 - **Claim** — `item → Item`, `claimant → User`, message, status.proof_ownership, message, status, created_at.
