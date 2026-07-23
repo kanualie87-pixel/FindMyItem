@@ -154,7 +154,7 @@ Base URL: `http://127.0.0.1:8000/api`
 
 ## 🗄️ Database schema (main tables)
 
-- **User** — username, email, password (hashed), `profile_picture`, phone,
+- **User** — username, email, password (hashed), `profile_picture`, phone,student_id,department, role (admin/user), created_at
   `is_staff` (= admin).
 - **Item** _(main entity)_ — `owner → User`, title, description, `item_type`
   (lost/found), category, location, latitude/longitude, image, status,date_lost_found,
