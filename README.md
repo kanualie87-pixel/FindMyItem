@@ -160,9 +160,9 @@ Base URL: `http://127.0.0.1:8000/api`
   (lost/found), category, location, latitude/longitude, image, status,date_lost_found,
   `date_event`, timestamps.
 - **Claim** — `item → Item`, `claimant → User`, message, status.proof_ownership,created_at.
-- **Conversation** — `participants ↔ User` (M2M), optional `item → Item`.
+- **Conversation** — `participants ↔ User` (M2M), optional `item → Item, created_ate
 - **Message** — `conversation → Conversation`, `sender → User`, text, is_read, sent_at
-
+  
 ---
 
 ## 📝 Notes
