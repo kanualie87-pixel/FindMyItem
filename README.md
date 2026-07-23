@@ -47,7 +47,7 @@ delete items.
 ### Prerequisites
 
 - Python 3.11+ (tested on 3.14) and Node.js 18+
-- PostgreSQL 18 running locally
+- dbSQlite3 18 running locally
 
 ### 1. Backend
 
@@ -157,9 +157,9 @@ Base URL: `http://127.0.0.1:8000/api`
 - **User** — username, email, password (hashed), `profile_picture`, phone,
   `is_staff` (= admin).
 - **Item** _(main entity)_ — `owner → User`, title, description, `item_type`
-  (lost/found), category, location, latitude/longitude, image, status,
+  (lost/found), category, location, latitude/longitude, image, status,date_lost_found,
   `date_event`, timestamps.
-- **Claim** — `item → Item`, `claimant → User`, message, status.
+- **Claim** — `item → Item`, `claimant → User`, message, status.proof_ownership,created_at.
 - **Conversation** — `participants ↔ User` (M2M), optional `item → Item`.
 - **Message** — `conversation → Conversation`, `sender → User`, text, is_read.
 
