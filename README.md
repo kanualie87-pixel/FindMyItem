@@ -7,7 +7,7 @@ delete items.
 
 - **Frontend:** React (Vite) + Tailwind CSS + React Router + Leaflet maps
 - **Backend:** Django + Django REST Framework + Django Channels (WebSockets)
-- **Database:** PostgreSQL (relational, via the Django ORM — no raw SQL, so no
+- **Database:** dbSQlite3 (relational, via the Django ORM — no raw SQL, so no
   SQL-injection risk)
 - **Auth:** JWT (access + refresh tokens)
 
